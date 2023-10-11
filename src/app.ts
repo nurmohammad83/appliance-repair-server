@@ -1,12 +1,29 @@
-import express from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
+import cors from 'cors';
+import httpStatus from 'http-status';
 
-const app = express();
-const port = 3000;
+const app: Application = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello world');
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+//handle not found
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(httpStatus.NOT_FOUND).json({
+    success: false,
+    message: 'Not Found',
+    errorMessages: [
+      {
+        path: req.originalUrl,
+        message: 'API Not Found',
+      },
+    ],
+  });
+  next();
 });
+export default app;
