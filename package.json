@@ -1,5 +1,5 @@
 {
-  "name": "car-repair-frontend",
+  "name": "appliance-repair-frontend",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
@@ -32,7 +32,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0",
+    "@prisma/client": "^5.4.2",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/jsonwebtoken": "^9.0.2",

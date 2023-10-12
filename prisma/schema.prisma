@@ -9,3 +9,110 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id               String            @id @default(uuid())
+  email            String            @unique
+  password         String // You should store hashed passwords
+  fullName         String
+  role             Role              @default(customer)
+  profileImage     String?
+  contactNo        String
+  gender           String?
+  dob              String?
+  isPasswordReset  Boolean           @map("is_password_reset")
+  profiles         Profile?
+  reviewAndRatings ReviewAndRating[]
+  bookings         Booking[]
+}
+
+model Profile {
+  id      String @id @default(uuid())
+  userId  String @unique @map("userId_id")
+  user    User   @relation(fields: [userId], references: [id])
+  adminId String @unique @map("admin_id")
+  admin   Admin  @relation(fields: [adminId], references: [id])
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  title    String
+  image String?
+  services Service[]
+
+  @@map("categories")
+}
+
+model Service {
+  id               String            @id @default(uuid())
+  name             String
+  description      Details[]
+  price            Float
+  location         String
+  rating           Float
+  categoryId       String
+  category         Category          @relation(fields: [categoryId], references: [id])
+  reviewAndRatings ReviewAndRating[]
+  bookings         Booking[]
+}
+
+model Details {
+  id        String   @id @default(uuid())
+  serviceId String
+  services Service @relation(fields: [serviceId], references: [id])
+  title String?
+  subTitle String[]
+
+}
+
+model ReviewAndRating {
+  id        String   @id @default(uuid())
+  review    String
+  rating    Int
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  serviceId String
+  book      Service  @relation(fields: [serviceId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("review_and_ratings")
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  userId    String
+  serviceId String
+  date      DateTime
+  status    Status   @default(pending) // You can use an enum for 
+  user      User     @relation(fields: [userId], references: [id])
+  service   Service  @relation(fields: [serviceId], references: [id])
+}
+
+model Admin {
+  id              String  @id @default(uuid())
+  email           String  @unique
+  password        String
+  fullName        String
+  role            Role
+  profileImage    String?
+  contactNo       String
+  gender          String?
+  dob             String?
+  isPasswordReset Boolean @map("is_password_reset")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  profile   Profile?
+}
+
+enum Role {
+  admin
+  customer
+}
+
+enum Status {
+  pending
+  shipped
+  delivered
+}
