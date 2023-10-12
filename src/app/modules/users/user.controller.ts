@@ -5,6 +5,16 @@ import tryAsync from '../../../shared/tryAsync';
 import { UserService } from './user.service';
 import sendResponse from '../../../shared/sendResponse';
 
+const createUser = tryAsync(async (req: Request, res: Response) => {
+  const { ...userData } = req.body;
+  const result = await UserService.createUser(userData);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'User create successfully',
+    success: true,
+    data: result,
+  });
+});
 const getAllFromDb = tryAsync(async (req: Request, res: Response) => {
   const result = await UserService.getAllFromDb();
   sendResponse(res, {
@@ -48,6 +58,7 @@ const deleteByIdFromDb = tryAsync(async (req: Request, res: Response) => {
 });
 
 export const UserController = {
+  createUser,
   getAllFromDb,
   getByIdFromDb,
   updateByIdFromDb,

@@ -2,15 +2,19 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import httpStatus from 'http-status';
 
+import routes from './app/routes';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello world');
-});
+app.use('/api/v1', routes);
+
+//global error handler
+app.use(globalErrorHandler);
 
 //handle not found
 app.use((req: Request, res: Response, next: NextFunction) => {

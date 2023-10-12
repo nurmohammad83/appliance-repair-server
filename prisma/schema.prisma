@@ -15,24 +15,17 @@ model User {
   email            String            @unique
   password         String // You should store hashed passwords
   fullName         String
-  role             Role              @default(customer)
+  role             Role              @default(user)
   profileImage     String?
   contactNo        String
   gender           String?
   dob              String?
-  isPasswordReset  Boolean           @map("is_password_reset")
-  profiles         Profile?
+  isPasswordReset  Boolean          
   reviewAndRatings ReviewAndRating[]
   bookings         Booking[]
+  @@map("users")
 }
 
-model Profile {
-  id      String @id @default(uuid())
-  userId  String @unique @map("userId_id")
-  user    User   @relation(fields: [userId], references: [id])
-  adminId String @unique @map("admin_id")
-  admin   Admin  @relation(fields: [adminId], references: [id])
-}
 
 model Category {
   id       String    @id @default(uuid())
@@ -54,6 +47,7 @@ model Service {
   category         Category          @relation(fields: [categoryId], references: [id])
   reviewAndRatings ReviewAndRating[]
   bookings         Booking[]
+  @@map("services")
 }
 
 model Details {
@@ -87,6 +81,7 @@ model Booking {
   status    Status   @default(pending) // You can use an enum for 
   user      User     @relation(fields: [userId], references: [id])
   service   Service  @relation(fields: [serviceId], references: [id])
+  @@map("bookings")
 }
 
 model Admin {
@@ -99,16 +94,17 @@ model Admin {
   contactNo       String
   gender          String?
   dob             String?
-  isPasswordReset Boolean @map("is_password_reset")
+  isPasswordReset Boolean 
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  profile   Profile?
+  createdAt DateTime @default(now()) 
+  updatedAt DateTime @updatedAt 
+  @@map("admins")
 }
 
 enum Role {
   admin
-  customer
+  user
+  super_admin
 }
 
 enum Status {

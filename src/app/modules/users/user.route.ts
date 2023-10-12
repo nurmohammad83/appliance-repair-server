@@ -5,16 +5,27 @@ import auth from '../../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/', auth(ENUM_USER_ROLE.ADMIN), UserController.getAllFromDb);
-router.get('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.getByIdFromDb);
+router.post('/create-user', UserController.createUser);
+
+router.get(
+  '/',
+
+  UserController.getAllFromDb
+);
+
+router.get(
+  '/:id',
+
+  UserController.getByIdFromDb
+);
 router.delete(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
   UserController.deleteByIdFromDb
 );
 router.patch(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
   UserController.updateByIdFromDb
 );
 
