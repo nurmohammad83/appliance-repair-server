@@ -44,8 +44,31 @@ const getByIdFromDb = tryAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateByIdFromDb = tryAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = req.body;
+  const result = await ServicesService.updateByIdFromDb(id, data);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'Service updated successfully',
+    success: true,
+    data: result,
+  });
+});
+
+const deleteByIdFromDb = tryAsync(async (req: Request, res: Response) => {
+  const result = await ServicesService.deleteByIdFromDb(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'Service is deleted successfully',
+    success: true,
+    data: result,
+  });
+});
 export const ServicesController = {
   insertIntoDb,
   getAllFromDb,
+  deleteByIdFromDb,
+  updateByIdFromDb,
   getByIdFromDb,
 };
