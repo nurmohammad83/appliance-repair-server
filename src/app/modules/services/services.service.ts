@@ -101,4 +101,15 @@ const getAllFromDb = async (
   };
 };
 
-export const ServicesService = { insertIntoDb, getAllFromDb };
+const getByIdFromDb = async (id: string): Promise<Service | null> => {
+  const result = await prisma.service.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      category: true,
+    },
+  });
+  return result;
+};
+export const ServicesService = { insertIntoDb, getAllFromDb, getByIdFromDb };

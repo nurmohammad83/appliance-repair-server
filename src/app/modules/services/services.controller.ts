@@ -20,7 +20,7 @@ const getAllFromDb = tryAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, servicesFilterableFields);
   const options = pick(req.query, [
     'page',
-    'limit',
+    'size',
     'sortBy',
     'sortOrder',
     'minPrice',

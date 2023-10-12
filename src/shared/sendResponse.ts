@@ -6,8 +6,8 @@ type IResponse<T> = {
   message: string;
   meta?: {
     page: number;
-    limit: number;
-    total: number;
+    size: number;
+    totalPage: number;
   };
   data?: T | null;
 };
