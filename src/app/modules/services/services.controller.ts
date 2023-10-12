@@ -34,7 +34,18 @@ const getAllFromDb = tryAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getByIdFromDb = tryAsync(async (req: Request, res: Response) => {
+  const result = await ServicesService.getByIdFromDb(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'Service fetched successfully',
+    success: true,
+    data: result,
+  });
+});
+
 export const ServicesController = {
   insertIntoDb,
   getAllFromDb,
+  getByIdFromDb,
 };
