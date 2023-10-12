@@ -15,16 +15,16 @@ router.post(
 router.get('/', ServicesController.getAllFromDb);
 router.get('/:id', ServicesController.getByIdFromDb);
 
-// router.delete(
-//   '/:id',
-//   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
-//   ServicesController.deleteByIdFromDb
-// );
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  ServicesController.deleteByIdFromDb
+);
 
-// router.patch(
-//   '/:id',
-//   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
-//   ServicesController.updateByIdFromDb
-// );
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  ServicesController.updateByIdFromDb
+);
 
 export const CategoryRoutes = router;
