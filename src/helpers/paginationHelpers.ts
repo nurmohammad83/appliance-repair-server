@@ -1,35 +1,41 @@
 type IOptions = {
   page?: number;
-  limit?: number;
+  size?: number;
   sortBy?: string;
   sortOrder?: string;
+  minPrice?: number | null;
+  maxPrice?: number | null;
 };
 
-type IOptionsResult = {
+type IOptionsResults = {
   page: number;
-  limit: number;
+  size: number;
   skip: number;
-  sortBy: string;
-  sortOrder: string;
+  sortBy?: string;
+  sortOrder?: string;
+  minPrice: number | null;
+  maxPrice: number | null;
 };
 
-const calculatePagination = (options: IOptions): IOptionsResult => {
-  const page = Number(options.page || 1);
-  const limit = Number(options.limit || 10);
-  const skip = (page - 1) * limit;
-
-  const sortBy = options.sortBy || 'createdAt';
-  const sortOrder = options.sortOrder || 'desc';
-
+const calculatePagination = (option: IOptions): IOptionsResults => {
+  const page = Number(option.page || 1);
+  const size = Number(option.size || 10);
+  const skip = (page - 1) * size;
+  const minPrice = Number(option.minPrice);
+  const maxPrice = Number(option.maxPrice);
+  const sortBy = option.sortBy || 'createdAt';
+  const sortOrder = option.sortOrder || 'desc';
   return {
     page,
-    limit,
+    size,
     skip,
     sortBy,
     sortOrder,
+    minPrice,
+    maxPrice,
   };
 };
 
-export const paginationHelpers = {
+export const paginationHelper = {
   calculatePagination,
 };
