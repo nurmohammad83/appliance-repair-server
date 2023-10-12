@@ -10,8 +10,18 @@ import {
   servicesSearchableFields,
 } from './services.constants';
 import { IServiceFilterRequest } from './services.interface';
+import ApiError from '../../../Errors/ApiError';
+import httpStatus from 'http-status';
 
 const insertIntoDb = async (serviceData: Service): Promise<Service> => {
+  const isExist = await prisma.service.findFirst({
+    where: {
+      name: serviceData.name,
+    },
+  });
+  if (isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Service already exist!');
+  }
   const result = await prisma.service.create({ data: serviceData });
   return result;
 };
@@ -114,13 +124,22 @@ const getByIdFromDb = async (id: string): Promise<Service | null> => {
   return result;
 };
 
-const deleteByIdFromDb = async (id: string): Promise<Service | null> => {
-  const result = await prisma.service.delete({
-    where: {
-      id,
-    },
-  });
-  return result;
+const deleteByIdFromDb = async (id: string): Promise<any> => {
+  const startedAppointment = await prisma.$transaction(
+    async transactionClient => {
+      await transactionClient.description.deleteMany({
+        where: {
+          serviceId: id,
+        },
+      });
+      await prisma.service.delete({
+        where: {
+          id,
+        },
+      });
+    }
+  );
+  return startedAppointment;
 };
 
 const updateByIdFromDb = async (

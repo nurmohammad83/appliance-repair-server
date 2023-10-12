@@ -1,7 +1,17 @@
 import { Category } from '@prisma/client';
 import prisma from '../../../shared/prisma';
+import ApiError from '../../../Errors/ApiError';
+import httpStatus from 'http-status';
 
 const insertIntoDb = async (data: Category): Promise<Category | null> => {
+  const isExist = await prisma.category.findFirst({
+    where: {
+      title: data.title,
+    },
+  });
+  if (isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Category already exist!');
+  }
   const result = await prisma.category.create({
     data,
   });

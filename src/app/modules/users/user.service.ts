@@ -2,7 +2,17 @@ import { User } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 import bcrypt from 'bcrypt';
 import config from '../../../config';
+import ApiError from '../../../Errors/ApiError';
+import httpStatus from 'http-status';
 const createUser = async (userData: User): Promise<User> => {
+  const isExist = await prisma.user.findFirst({
+    where: {
+      email: userData.email,
+    },
+  });
+  if (isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User already exist!');
+  }
   userData.password = await bcrypt.hash(
     userData.password,
     Number(config.bcrypt_salt_rounds)
