@@ -9,7 +9,11 @@ const insertIntoDb = async (data: Category): Promise<Category | null> => {
 };
 
 const getAllFromDb = async (): Promise<Category[] | null> => {
-  const result = await prisma.category.findMany();
+  const result = await prisma.category.findMany({
+    include: {
+      services: true,
+    },
+  });
   return result;
 };
 

@@ -27,4 +27,4 @@ router.patch(
   ServicesController.updateByIdFromDb
 );
 
-export const CategoryRoutes = router;
+export const ServiceRoutes = router;

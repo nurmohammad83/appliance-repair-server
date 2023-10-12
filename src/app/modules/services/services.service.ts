@@ -82,6 +82,7 @@ const getAllFromDb = async (
     where: whereConditions,
     include: {
       category: true,
+      description: true,
     },
     orderBy:
       sortBy && sortBy
