@@ -18,7 +18,7 @@ const getAllFromDb = tryAsync(async (req: Request, res: Response) => {
   const result = await BookingService.getAllFromDb();
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: 'Categories fetched successfully',
+    message: 'Bookings fetched successfully',
     success: true,
     data: result,
   });
