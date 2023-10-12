@@ -112,4 +112,32 @@ const getByIdFromDb = async (id: string): Promise<Service | null> => {
   });
   return result;
 };
-export const ServicesService = { insertIntoDb, getAllFromDb, getByIdFromDb };
+
+const deleteByIdFromDb = async (id: string): Promise<Service | null> => {
+  const result = await prisma.service.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
+const updateByIdFromDb = async (
+  id: string,
+  payload: Service
+): Promise<Service | null> => {
+  const result = await prisma.service.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+  return result;
+};
+export const ServicesService = {
+  insertIntoDb,
+  getAllFromDb,
+  getByIdFromDb,
+  deleteByIdFromDb,
+  updateByIdFromDb,
+};
