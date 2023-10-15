@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import tryAsync from '../../../shared/tryAsync';
-import { TimeSlotsServices } from './Slots.services';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
+import { TimeSlotsServices } from './Slots.services';
 
 const createTimeSlot = tryAsync(async (req: Request, res: Response) => {
   const result = await TimeSlotsServices.createTimeSlot(req.body);

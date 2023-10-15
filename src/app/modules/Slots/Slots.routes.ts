@@ -1,12 +1,12 @@
 import express from 'express';
-import { timeSlotsController } from './Slots.controller';
+import { TimeSlotsController } from './Slots.controller';
 
 const router = express.Router();
 
-router.post('/create-time-slot', timeSlotsController.createTimeSlot);
-router.get('/', timeSlotsController.getAllTimeSlots);
-router.get('/:id', timeSlotsController.getSingleTimeSlot);
-router.patch('/:id', timeSlotsController.updateTimeSlot);
-router.delete('/:id', timeSlotsController.deleteTimeSlot);
+router.post('/create-time-slot', TimeSlotsController.createTimeSlot);
+router.get('/', TimeSlotsController.getAllTimeSlots);
+router.get('/:id', TimeSlotsController.getSingleTimeSlot);
+router.patch('/:id', TimeSlotsController.updateTimeSlot);
+router.delete('/:id', TimeSlotsController.deleteTimeSlot);
 
-export const timeSlotsRoutes = router;
+export const TimeSlotsRoutes = router;

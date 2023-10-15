@@ -9,4 +9,4 @@ router.get('/:id', PaymentController.getSinglePayment);
 router.patch('/:id', PaymentController.updatePayment);
 router.delete('/:id', PaymentController.deletePayment);
 
-export const paymentRoutes = router;
+export const PaymentRoutes = router;
