@@ -17,7 +17,7 @@ const createUser = async (userData: User): Promise<User> => {
     userData.password,
     Number(config.bcrypt_salt_rounds)
   );
-  userData.isPasswordReset = false;
+  userData.isPasswordReset = true;
   const result = await prisma.user.create({ data: userData });
   return result;
 };

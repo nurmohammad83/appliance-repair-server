@@ -1,15 +1,64 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Booking } from '@prisma/client';
 import prisma from '../../../shared/prisma';
+import ApiError from '../../../Errors/ApiError';
+import httpStatus from 'http-status';
 
-const insertIntoDb = async (bookingData: Booking): Promise<Booking> => {
-  const result = await prisma.booking.create({
-    data: bookingData,
-    include: {
-      service: true,
-      user: true,
+const insertIntoDb = async (
+  userId: string,
+  serviceId: string,
+  date: string,
+  slotId: string
+): Promise<any> => {
+  const isExist = await prisma.service.findUnique({
+    where: {
+      id: serviceId,
     },
   });
-  return result;
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Service  not exist');
+  }
+
+  const isSlotExit = await prisma.booking.findFirst({
+    where: {
+      date,
+      service: {
+        id: isExist.id,
+      },
+      slotId,
+    },
+  });
+
+  if (isSlotExit) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This slot is already exist');
+  }
+
+  const bookingData = await prisma.$transaction(async transactionClient => {
+    const booking = await transactionClient.booking.create({
+      data: {
+        date,
+        userId,
+        slotId,
+        serviceId,
+      },
+    });
+
+    const payment = await transactionClient.payment.create({
+      data: {
+        amount: isExist.price,
+        paymentStatus: 'pending',
+        bookingId: booking.id,
+      },
+    });
+
+    return {
+      booking: booking,
+      payment: payment,
+    };
+  });
+
+  return bookingData;
 };
 
 const getAllFromDb = async (): Promise<Booking[] | null> => {

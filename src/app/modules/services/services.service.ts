@@ -93,6 +93,8 @@ const getAllFromDb = async (
     include: {
       category: true,
       description: true,
+      bookings: true,
+      reviewAndRatings: true,
     },
     orderBy:
       sortBy && sortBy
