@@ -53,7 +53,7 @@ const deletePayment = tryAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const paymentController = {
+export const PaymentController = {
   createPayment,
   getAllPayments,
   getSinglePayment,

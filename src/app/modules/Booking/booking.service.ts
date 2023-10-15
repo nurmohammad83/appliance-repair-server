@@ -10,13 +10,13 @@ const insertIntoDb = async (
   date: string,
   slotId: string
 ): Promise<any> => {
-  const isExist = await prisma.service.findUnique({
+  const isExistService = await prisma.service.findUnique({
     where: {
       id: serviceId,
     },
   });
 
-  if (!isExist) {
+  if (!isExistService) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Service  not exist');
   }
 
@@ -24,7 +24,7 @@ const insertIntoDb = async (
     where: {
       date,
       service: {
-        id: isExist.id,
+        id: isExistService.id,
       },
       slotId,
     },
@@ -46,7 +46,7 @@ const insertIntoDb = async (
 
     const payment = await transactionClient.payment.create({
       data: {
-        amount: isExist.price,
+        amount: isExistService.price,
         paymentStatus: 'pending',
         bookingId: booking.id,
       },
