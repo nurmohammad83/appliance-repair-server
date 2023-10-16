@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import tryAsync from '../../../shared/tryAsync';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
-import { TimeSlotsServices } from './Slots.services';
+import { TimeSlotsServices } from './slots.services';
 
 const createTimeSlot = tryAsync(async (req: Request, res: Response) => {
   const result = await TimeSlotsServices.createTimeSlot(req.body);

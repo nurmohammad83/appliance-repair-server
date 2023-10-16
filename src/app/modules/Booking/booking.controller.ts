@@ -5,8 +5,13 @@ import sendResponse from '../../../shared/sendResponse';
 import { BookingService } from './booking.service';
 
 const insertIntoDb = tryAsync(async (req: Request, res: Response) => {
-  const { userId, serviceId, date } = req.body;
-  const result = await BookingService.insertIntoDb(userId, serviceId, date);
+  const { userId, serviceId, date, slotId } = req.body;
+  const result = await BookingService.insertIntoDb(
+    userId,
+    serviceId,
+    date,
+    slotId
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'Booking created successfully',

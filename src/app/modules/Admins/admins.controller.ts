@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { adminServices } from './admins.services';
 import httpStatus from 'http-status';
 import tryAsync from '../../../shared/tryAsync';
 import sendResponse from '../../../shared/sendResponse';
+import { adminServices } from './admins.services';
 
 const createAdmin = tryAsync(async (req: Request, res: Response) => {
   const { ...adminData } = req.body;

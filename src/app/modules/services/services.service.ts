@@ -18,6 +18,10 @@ const insertIntoDb = async (serviceData: Service): Promise<Service> => {
     where: {
       name: serviceData.name,
     },
+    include: {
+      category: true,
+      description: true,
+    },
   });
   if (isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Service already exist!');
