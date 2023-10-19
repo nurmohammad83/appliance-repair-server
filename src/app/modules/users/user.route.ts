@@ -7,13 +7,17 @@ import { UserValidation } from './user.validation';
 
 const router = express.Router();
 
-router.post('/create-user', UserController.createUser);
+router.post(
+  '/create-user',
+  validateRequest(UserValidation.create),
+  UserController.createUser
+);
 
 router.get('/', UserController.getAllFromDb);
 
 router.get(
   '/:id',
-  validateRequest(UserValidation.create),
+
   UserController.getByIdFromDb
 );
 router.delete(
@@ -23,6 +27,7 @@ router.delete(
 );
 router.patch(
   '/:id',
+  validateRequest(UserValidation.update),
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
   UserController.updateByIdFromDb
 );
