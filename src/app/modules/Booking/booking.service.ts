@@ -82,13 +82,27 @@ const getByIdFromDb = async (id: string): Promise<Booking | null> => {
   });
   return result;
 };
-const deleteByIdFromDb = async (id: string): Promise<Booking | null> => {
-  const result = await prisma.booking.delete({
-    where: {
-      id,
-    },
+const deleteByIdFromDb = async (id: string): Promise<any> => {
+  const bookingData = await prisma.$transaction(async transactionClient => {
+    const payment = await transactionClient.payment.delete({
+      where: {
+        bookingId: id,
+      },
+    });
+
+    const booking = await transactionClient.booking.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      booking: booking,
+      payment: payment,
+    };
   });
-  return result;
+
+  return bookingData;
 };
 
 const updateByIdFromDb = async (

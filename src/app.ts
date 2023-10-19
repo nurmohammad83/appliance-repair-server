@@ -6,8 +6,11 @@ import routes from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 
 const app: Application = express();
-
-app.use(cors());
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+app.use('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
