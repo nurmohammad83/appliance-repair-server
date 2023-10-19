@@ -61,12 +61,10 @@ const getAllFromDb = async (
                 mode: 'insensitive',
               },
             },
+            {
+              email: email,
+            },
           ],
-        },
-      ],
-      OR: [
-        {
-          email: email,
         },
       ],
     },
