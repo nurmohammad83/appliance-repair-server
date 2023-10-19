@@ -1,7 +1,7 @@
 import express from 'express';
-import { TimeSlotsController } from './slots.controller';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import auth from '../../middlewares/auth';
+import { TimeSlotsController } from './slots.controller';
 
 const router = express.Router();
 

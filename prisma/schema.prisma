@@ -59,6 +59,7 @@ model Service {
   image            String
   rating           Float
   categoryId       String
+  trending          Boolean?
   category         Category          @relation(fields: [categoryId], references: [id])
   reviewAndRatings ReviewAndRating[]
   bookings         Booking[]
@@ -95,7 +96,7 @@ model Booking {
   userId    String
   serviceId String
   slotId  String
-  date      DateTime
+  date      String
   payment  Payment?
   status    Status   @default(pending)
   slots      Slots     @relation(fields: [slotId], references: [id])

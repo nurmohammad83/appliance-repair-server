@@ -87,10 +87,10 @@ const getAllFromDb = async (
   };
 };
 
-const getByIdFromDb = async (id: string): Promise<User | null> => {
-  const result = await prisma.user.findUnique({
+const getByIdFromDb = async (email: string): Promise<User | null> => {
+  const result = await prisma.user.findFirst({
     where: {
-      id,
+      email,
     },
   });
   return result;
@@ -105,6 +105,14 @@ const deleteByIdFromDb = async (id: string) => {
 };
 
 const updateByIdFromDb = async (id: string, payload: User): Promise<User> => {
+  console.log(id, payload);
+  const isExist = await prisma.user.findUnique({
+    where: { id },
+  });
+  console.log(isExist);
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
   const result = await prisma.user.update({
     where: {
       id,

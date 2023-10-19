@@ -46,7 +46,7 @@ const getByIdFromDb = tryAsync(async (req: Request, res: Response) => {
 
 const updateByIdFromDb = tryAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const data = req.body;
+  const { ...data } = req.body;
   const result = await ServicesService.updateByIdFromDb(id, data);
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -29,7 +29,7 @@ const getAllFromDb = tryAsync(async (req: Request, res: Response) => {
 });
 
 const getByIdFromDb = tryAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getByIdFromDb(req.params.id);
+  const result = await UserService.getByIdFromDb(req.params.email);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'User fetched successfully',
@@ -40,7 +40,7 @@ const getByIdFromDb = tryAsync(async (req: Request, res: Response) => {
 
 const updateByIdFromDb = tryAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const data = req.body;
+  const { ...data } = req.body;
   const result = await UserService.updateByIdFromDb(id, data);
   sendResponse(res, {
     statusCode: httpStatus.OK,

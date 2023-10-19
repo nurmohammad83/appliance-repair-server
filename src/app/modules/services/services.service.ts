@@ -91,7 +91,7 @@ const getAllFromDb = async (
   const total = await prisma.service.count({ where: whereConditions });
   const totalPage = Math.ceil(total / size);
   const result = await prisma.service.findMany({
-    take: size,
+    take: 30,
     skip,
     where: whereConditions,
     include: {
@@ -125,6 +125,9 @@ const getByIdFromDb = async (id: string): Promise<Service | null> => {
     },
     include: {
       category: true,
+      description: true,
+      bookings: true,
+      reviewAndRatings: true,
     },
   });
   return result;

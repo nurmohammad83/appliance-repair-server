@@ -33,40 +33,31 @@ const insertIntoDb = async (
   if (isSlotExit) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'This slot is already exist');
   }
-  const booking = await prisma.booking.create({
-    data: {
-      date,
-      userId,
-      slotId,
-      serviceId,
-    },
+  const bookingData = await prisma.$transaction(async transactionClient => {
+    const booking = await transactionClient.booking.create({
+      data: {
+        date,
+        userId,
+        slotId,
+        serviceId,
+      },
+    });
+
+    const payment = await transactionClient.payment.create({
+      data: {
+        amount: isExistService.price,
+        paymentStatus: 'pending',
+        bookingId: booking.id,
+      },
+    });
+
+    return {
+      booking: booking,
+      payment: payment,
+    };
   });
-  return booking;
-  // const bookingData = await prisma.$transaction(async transactionClient => {
-  //   const booking = await transactionClient.booking.create({
-  //     data: {
-  //       date,
-  //       userId,
-  //       slotId,
-  //       serviceId,
-  //     },
-  //   });
 
-  //   const payment = await transactionClient.payment.create({
-  //     data: {
-  //       amount: isExistService.price,
-  //       paymentStatus: 'pending',
-  //       bookingId: booking.id,
-  //     },
-  //   });
-
-  //   return {
-  //     booking: booking,
-  //     payment: payment,
-  //   };
-  // });
-
-  // return bookingData;
+  return bookingData;
 };
 
 const getAllFromDb = async (): Promise<Booking[] | null> => {

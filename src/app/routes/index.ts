@@ -6,7 +6,7 @@ import { CategoryRoutes } from '../modules/category/category.route';
 import { ServiceRoutes } from '../modules/services/services.route';
 import { PaymentRoutes } from '../modules/Payment/payment.route';
 import { BookingRoutes } from '../modules/booking/booking.route';
-import { TimeSlotsRoutes } from '../modules/Slots/slots.routes';
+import { TimeSlotsRoutes } from '../modules/slots/slots.routes';
 import { ReviewRoutes } from '../modules/review/review.route';
 
 const router = express.Router();

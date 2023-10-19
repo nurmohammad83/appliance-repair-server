@@ -2,6 +2,8 @@ import express from 'express';
 import { UserController } from './user.controller';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import auth from '../../middlewares/auth';
+import validateRequest from '../../middlewares/validationRequest';
+import { UserValidation } from './user.validation';
 
 const router = express.Router();
 
@@ -11,7 +13,7 @@ router.get('/', UserController.getAllFromDb);
 
 router.get(
   '/:id',
-
+  validateRequest(UserValidation.create),
   UserController.getByIdFromDb
 );
 router.delete(
