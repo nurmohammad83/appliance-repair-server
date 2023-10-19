@@ -8,10 +8,10 @@ const create = z.object({
     rating: z.number({
       required_error: 'rating is required',
     }),
-    serviceId: z.number({
+    serviceId: z.string({
       required_error: 'serviceId is required',
     }),
-    userId: z.number({
+    userId: z.string({
       required_error: 'userId is required',
     }),
   }),
@@ -21,8 +21,8 @@ const update = z.object({
   body: z.object({
     review: z.string().optional(),
     rating: z.number().optional(),
-    serviceId: z.number().optional(),
-    userId: z.number().optional(),
+    serviceId: z.string().optional(),
+    userId: z.string().optional(),
   }),
 });
 

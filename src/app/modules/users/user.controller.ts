@@ -17,7 +17,7 @@ const createUser = tryAsync(async (req: Request, res: Response) => {
   });
 });
 const getAllFromDb = tryAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, ['fullName', 'searchTerm']);
+  const filters = pick(req.query, ['email', 'searchTerm']);
   const options = pick(req.query, ['page', 'size', 'sortBy', 'sortOrder']);
   const result = await UserService.getAllFromDb(filters, options);
   sendResponse(res, {
@@ -29,7 +29,7 @@ const getAllFromDb = tryAsync(async (req: Request, res: Response) => {
 });
 
 const getByIdFromDb = tryAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getByIdFromDb(req.params.email);
+  const result = await UserService.getByIdFromDb(req.params.id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'User fetched successfully',

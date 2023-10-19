@@ -11,15 +11,11 @@ const create = z.object({
     password: z.string({
       required_error: 'password is required',
     }),
-    role: z.string({
-      required_error: 'role is required',
-    }),
+    role: z.string().optional(),
     contactNo: z.string({
       required_error: 'contactNo is required',
     }),
-    isPasswordReset: z.boolean({
-      required_error: 'isPasswordReset is required',
-    }),
+    isPasswordReset: z.boolean().optional(),
     profileImage: z.boolean().optional(),
     gender: z.string().optional(),
     dob: z.string().optional(),

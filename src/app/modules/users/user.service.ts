@@ -7,11 +7,15 @@ import httpStatus from 'http-status';
 import { IPaginationOptions } from '../../../shared/pagination';
 import { paginationHelper } from '../../../helpers/paginationHelpers';
 const createUser = async (userData: User): Promise<User> => {
+  if (!userData.role) {
+    userData.role = 'user';
+  }
   const isExist = await prisma.user.findFirst({
     where: {
       email: userData.email,
     },
   });
+
   if (isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User already exist!');
   }
@@ -27,12 +31,12 @@ const createUser = async (userData: User): Promise<User> => {
 const getAllFromDb = async (
   filters: {
     searchTerm?: string;
-    fullName?: string;
+    email?: string;
   },
   options: IPaginationOptions
 ): Promise<User[]> => {
-  const { searchTerm } = filters;
-  const { page, size, skip, sortBy, sortOrder } =
+  const { searchTerm, email } = filters;
+  const { size, skip, sortBy, sortOrder } =
     paginationHelper.calculatePagination(options);
   const result = await prisma.user.findMany({
     where: {
@@ -60,6 +64,11 @@ const getAllFromDb = async (
           ],
         },
       ],
+      OR: [
+        {
+          email: email,
+        },
+      ],
     },
     include: {
       bookings: true,
@@ -75,22 +84,13 @@ const getAllFromDb = async (
         : { createdAt: 'desc' },
   });
 
-  const total = await prisma.user.count();
-
-  return {
-    meta: {
-      page,
-      size,
-      total,
-    },
-    data: result,
-  };
+  return result;
 };
 
-const getByIdFromDb = async (email: string): Promise<User | null> => {
-  const result = await prisma.user.findFirst({
+const getByIdFromDb = async (id: string): Promise<User | null> => {
+  const result = await prisma.user.findUnique({
     where: {
-      email,
+      id,
     },
   });
   return result;

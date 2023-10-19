@@ -14,9 +14,7 @@ const create = z.object({
     date: z.string({
       required_error: 'date is required',
     }),
-    status: z.string({
-      required_error: 'status is required',
-    }),
+    status: z.string().optional(),
     payment: z.string().optional(),
   }),
 });
