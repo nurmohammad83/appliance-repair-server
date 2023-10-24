@@ -65,6 +65,7 @@ const getAllFromDb = async (): Promise<Booking[] | null> => {
     include: {
       service: true,
       user: true,
+      slots: true,
     },
   });
   return result;
