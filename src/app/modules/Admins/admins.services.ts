@@ -11,7 +11,7 @@ const createAdmin = async (admin: Admin): Promise<Admin> => {
     where: {
       email: admin.email,
     },
-  });
+});
   if (isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User already exist!');
   }

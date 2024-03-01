@@ -4,15 +4,22 @@ import httpStatus from 'http-status';
 
 import routes from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import cookieParser from 'cookie-parser';
 
 const app: Application = express();
-const corsOptions = {
-  origin: true,
-  credentials: true,
-};
-app.use('*', cors(corsOptions));
+// const corsOptions = {
+//   origin: true,
+//   credentials: true,
+// };
+// app.use('*', cors(corsOptions));
+// app.use(express.urlencoded({ extended: true }));
+
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use(cors({ origin: ['http://localhost:3000','https://appliance-repair-frontend-main-rho.vercel.app/'], credentials: true }));
+
 
 app.use('/api/v1', routes);
 

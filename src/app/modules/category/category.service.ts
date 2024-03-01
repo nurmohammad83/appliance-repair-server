@@ -38,6 +38,7 @@ const getByIdFromDb = async (id: string): Promise<Category | null> => {
   });
   return result;
 };
+
 const deleteByIdFromDb = async (id: string): Promise<Category | null> => {
   const result = await prisma.category.delete({
     where: {

@@ -42,7 +42,7 @@ const refreshToken = async (
     res.send({
       statusCode: 200,
       success: true,
-      message: ' refreshed token successfully',
+      message: 'refreshed token successfully',
       data: result,
     });
   } catch (error) {
